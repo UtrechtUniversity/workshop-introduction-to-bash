@@ -1,0 +1,6 @@
+# Welcome! {.unnumbered}
+
+Welcome to this template github repository that is developed by [Research Data Management support at Utrecht University](https://www.uu.nl/en/research/research-data-management). This template combines two quarto projects (book and slides) in one github repository for creating a book with embedded slides.
+
+- [Chapter 1](chapter1.qmd)  
+- [Chapter 2](chapter2.qmd)

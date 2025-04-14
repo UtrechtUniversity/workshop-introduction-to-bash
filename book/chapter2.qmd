@@ -1,0 +1,12 @@
+# Chapter 2! {.unnumbered}
+
+Welcome to chapter 2!
+
+```{=html}
+<iframe class="slide-deck" src="./slides/pres2.html" title="presentation 2" width="720" height="540">
+</iframe>
+```
+
+## Exercises
+
+

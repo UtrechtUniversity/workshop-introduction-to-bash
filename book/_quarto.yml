@@ -1,0 +1,43 @@
+project:
+  type: website
+
+website:
+  title: "Course template"
+  page-navigation: true
+  page-footer:
+    right: "This website is built and maintained with ☕ and [Quarto](https://quarto.org/)."
+  sidebar:
+    tools:
+      - icon: github
+        menu:
+          - text: Source code
+            url:  https://github.com/UtrechtUniversity/rdm-quarto-workshop-template
+          - text: Report an issue
+            url:  https://github.com/UtrechtUniversity/rdm-quarto-workshop-template/issues
+    search: true
+    pinned: true
+    alignment: center
+    style: docked
+    collapse-level: 2
+    logo: img/uu-logo-en-geenwitruimte.png
+    logo-alt: "Logo of Utrecht University"
+    contents:
+      - section: "Course information"
+        contents:
+          - href: index.qmd
+            text: Home
+      - section: "Introduction"
+        contents:
+          - href: chapter1.qmd
+            text: Chapter 1
+      - section: "Advanced"
+        contents:
+          - href: chapter2.qmd
+            text: Chapter 2
+
+format:
+  html:
+    theme: 
+      light: [cosmo, styles/theme-light.scss]
+      dark: [cosmo, styles/theme-dark.scss]
+    css: styles.css
