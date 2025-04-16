@@ -1,0 +1,17 @@
+---
+title: 01 - The Bash shell
+subtitle: Introducing to linux command line
+time: "0:30"
+execute: 
+  cache: true
+  freeze: true
+
+---
+
+
+
+```{=html}
+<iframe class="slide-deck" src="../slides/pres1.html" title="presentation 1" width="720" height="540">
+</iframe>
+```
+

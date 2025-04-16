@@ -1,0 +1,737 @@
+---
+title: 05 - Scripts and variables
+subtitle: Automating workflows
+time: "0:50"
+execute: 
+  cache: true
+  freeze: true
+custom-callout:
+  answer:
+    icon-symbol: "📝"
+    color: "teal"
+    title: "Solution (Click to Expand)"
+    collapse: true
+filters:
+- custom-callout
+
+---
+
+| Objectives | Questions |
+| --- | --- |
+| Write a loop that applies one or more commands separately to each file in a set of files. | How can I perform the same actions on many different files? |
+| Write a shell script that runs a command or series of commands for a fixed set of files. | How can I save and re-use commands? |
+| Run a shell script from the command line. | | 
+
+
+**Loops** are a programming construct which allow us to repeat a command or set of commands
+for each item in a list.
+As such they are key to productivity improvements through automation.
+Similar to wildcards and tab completion, using loops also reduces the
+amount of typing required (and hence reduces the number of typing mistakes).
+
+Suppose we have several hundred genome data files named `basilisk.dat`, `minotaur.dat`, and
+`unicorn.dat`.
+For this example, we'll use the `exercise-data/creatures` directory which only has three
+example files,
+but the principles can be applied to many many more files at once.
+
+The structure of these files is the same: the common name, classification, and updated date are
+presented on the first three lines, with DNA sequences on the following lines.
+Let's look at the files:
+
+```bash
+$ head -n 5 basilisk.dat minotaur.dat unicorn.dat
+```
+
+We would like to print out the classification for each species, which is given on the second
+line of each file.
+For each file, we would need to execute the command `head -n 2` and pipe this to `tail -n 1`.
+We'll use a loop to solve this problem, but first let's look at the general form of a loop,
+using the pseudo-code below:
+
+```bash
+# The word "for" indicates the start of a "For-loop" command
+for thing in list_of_things 
+#The word "do" indicates the start of job execution list
+do 
+    # Indentation within the loop is not required, but aids legibility
+    operation_using/command $thing 
+# The word "done" indicates the end of a loop
+done  
+```
+
+and we can apply this to our example like this:
+
+```bash
+$ for filename in basilisk.dat minotaur.dat unicorn.dat
+> do
+>     echo $filename
+>     head -n 2 $filename | tail -n 1
+> done
+```
+
+```output
+basilisk.dat
+CLASSIFICATION: basiliscus vulgaris
+minotaur.dat
+CLASSIFICATION: bos hominus
+unicorn.dat
+CLASSIFICATION: equus monoceros
+```
+
+:::{.infobox}
+::::{.infobox-header}
+Follow the Prompt
+::::
+::::{.exercise-container}
+
+The shell prompt changes from `$` to `>` and back again as we were
+typing in our loop. The second prompt, `>`, is different to remind
+us that we haven't finished typing a complete command yet. A semicolon, `;`,
+can be used to separate two commands written on a single line.
+
+::::
+:::
+
+## Variables
+Inside the loop,
+we call for the variable's value by putting `$` in front of it.
+The `$` tells the shell interpreter to treat
+the variable as a variable name and substitute its value in its place,
+rather than treat it as text or an external command.
+
+In this example, the list is three filenames: `basilisk.dat`, `minotaur.dat`, and `unicorn.dat`.
+Each time the loop iterates, we first use `echo` to print the value that the variable
+`$filename` currently holds. This is not necessary for the result, but beneficial for us here to
+have an easier time to follow along.
+Next, we will run the `head` command on the file currently referred to by `$filename`.
+
+When using variables it is also
+possible to put the names into curly braces to clearly delimit the variable
+name: `$filename` is equivalent to `${filename}`, but is different from
+`${file}name`. You may find this notation in other people's programs.
+
+:::{.exercise}
+::::{.exercise-header}
+Write your own loop
+::::
+::::{.exercise-container}
+
+How would you write a loop that echoes all 10 numbers from 0 to 9?
+
+:::{.answer}
+```bash
+$ for loop_variable in 0 1 2 3 4 5 6 7 8 9
+> do
+>     echo $loop_variable
+> done
+```
+
+```output
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+```
+:::
+::::
+:::
+
+:::{.exercise}
+::::{.exercise-header}
+Variables in Loops
+::::
+::::{.exercise-container}
+
+This exercise refers to the `shell-lesson-data/exercise-data/alkanes` directory.
+`ls *.pdb` gives the following output:
+
+```output
+cubane.pdb  ethane.pdb  methane.pdb  octane.pdb  pentane.pdb  propane.pdb
+```
+
+What is the output of the following code?
+
+```bash
+$ for datafile in *.pdb
+> do
+>     ls $datafile
+> done
+```
+
+:::{.answer}
+
+```output
+cubane.pdb
+ethane.pdb
+methane.pdb
+octane.pdb
+pentane.pdb
+propane.pdb
+```
+
+:::
+::::   
+:::
+
+
+:::{.infobox}
+::::{.infobox-header}
+Spaces in Names
+::::
+::::{.exercise-container}
+
+Spaces are used to separate the elements of the list
+that we are going to loop over. If one of those elements
+contains a space character, we need to surround it with
+quotes, and do the same thing to our loop variable.
+Suppose our data files are named:
+
+```source
+red dragon.dat
+purple unicorn.dat
+```
+
+To loop over these files, we would need to add double quotes like so:
+
+```bash
+$ for filename in "red dragon.dat" "purple unicorn.dat"
+> do
+>     head -n 100 "$filename" | tail -n 20
+> done
+```
+
+It is simpler to avoid using spaces (or other special characters) in filenames.
+
+The files above don't exist, so if we run the above code, the `head` command will be unable
+to find them; however, the error message returned will show the name of the files it is
+expecting:
+
+```error
+head: cannot open ‘red dragon.dat' for reading: No such file or directory
+head: cannot open ‘purple unicorn.dat' for reading: No such file or directory
+```
+
+Try removing the quotes around `$filename` in the loop above to see the effect of the quote
+marks on spaces. Note that we get a result from the loop command for unicorn.dat
+when we run this code in the `creatures` directory:
+
+```output
+head: cannot open ‘red' for reading: No such file or directory
+head: cannot open ‘dragon.dat' for reading: No such file or directory
+head: cannot open ‘purple' for reading: No such file or directory
+CGGTACCGAA
+AAGGGTCGCG
+CAAGTGTTCC
+...
+```
+
+::::
+:::
+
+## Scripts
+
+Now we are ready to take the commands we have used frequently and put them into a script (aka shell script or program). With scripts we can automate things and make our work faster and reproducible. To be able to run your workflow on a High Performance Computing cluster, you will need to create a script with the same syntax we are using here.
+
+Let's start by going back to `alkanes/` and creating a new file, `middle.sh` which will
+become our shell script:
+
+```bash
+$ cd alkanes
+$ nano middle.sh
+```
+
+The command `nano middle.sh` opens the file `middle.sh` within the text editor 'nano'
+(which runs within the shell).
+If the file does not exist, it will be created.
+We can use the text editor to directly edit the file by inserting the following line:
+
+```source
+head -n 15 octane.pdb | tail -n 5
+```
+
+Remember, we are *not* running it as a command just yet;
+we are only incorporating the commands in a file.
+
+Then we save the file (`Ctrl-O` in nano) and exit the text editor (`Ctrl-X` in nano).
+Check that the directory `alkanes` now contains a file called `middle.sh`.
+
+Once we have saved the file,
+we can ask the shell to execute the commands it contains.
+Our shell is called `bash`, so we run the following command:
+
+```bash
+$ bash middle.sh
+```
+
+```output
+ATOM      9  H           1      -4.502   0.681   0.785  1.00  0.00
+ATOM     10  H           1      -5.254  -0.243  -0.537  1.00  0.00
+ATOM     11  H           1      -4.357   1.252  -0.895  1.00  0.00
+ATOM     12  H           1      -3.009  -0.741  -1.467  1.00  0.00
+ATOM     13  H           1      -3.172  -1.337   0.206  1.00  0.00
+```
+
+Sure enough,
+our script's output is exactly what we would get if we ran that pipeline directly.
+
+:::{.infobox}
+::::{.infobox-header}
+Text vs. Whatever
+::::
+::::{.exercise-container}
+
+We usually call programs like Microsoft Word or LibreOffice Writer "text
+editors", but we need to be a bit more careful when it comes to
+programming. By default, Microsoft Word uses `.docx` files to store not
+only text, but also formatting information about fonts, headings, and so
+on. This extra information isn't stored as characters and doesn't mean
+anything to tools like `head`, which expects input files to contain
+nothing but the letters, digits, and punctuation on a standard computer
+keyboard. When editing programs, therefore, you must either use a plain
+text editor or be careful to save files as plain text.
+
+::::
+:::
+
+What if we want to select lines from an arbitrary file?
+We could edit `middle.sh` each time to change the filename,
+but that would probably take longer than typing the command out again
+in the shell and executing it with a new file name.
+Instead, let's edit `middle.sh` and make it more versatile:
+
+```bash
+$ nano middle.sh
+```
+
+Now, within "nano", replace the text `octane.pdb` with the special variable called `$1`:
+
+```source
+head -n 15 "$1" | tail -n 5
+```
+
+Inside a shell script,
+`$1` means 'the first filename (or other argument) on the command line'.
+We can now run our script like this:
+
+```bash
+$ bash middle.sh octane.pdb
+```
+
+```output
+ATOM      9  H           1      -4.502   0.681   0.785  1.00  0.00
+ATOM     10  H           1      -5.254  -0.243  -0.537  1.00  0.00
+ATOM     11  H           1      -4.357   1.252  -0.895  1.00  0.00
+ATOM     12  H           1      -3.009  -0.741  -1.467  1.00  0.00
+ATOM     13  H           1      -3.172  -1.337   0.206  1.00  0.00
+```
+
+or on a different file like this:
+
+```bash
+$ bash middle.sh pentane.pdb
+```
+
+```output
+ATOM      9  H           1       1.324   0.350  -1.332  1.00  0.00
+ATOM     10  H           1       1.271   1.378   0.122  1.00  0.00
+ATOM     11  H           1      -0.074  -0.384   1.288  1.00  0.00
+ATOM     12  H           1      -0.048  -1.362  -0.205  1.00  0.00
+ATOM     13  H           1      -1.183   0.500  -1.412  1.00  0.00
+```
+
+:::{.infobox}
+::::{.infobox-header}
+Double-Quotes Around Arguments
+::::
+::::{.exercise-container}
+
+For the same reason that we put the loop variable inside double-quotes,
+in case the filename happens to contain any spaces,
+we surround `$1` with double-quotes.
+
+::::
+:::
+
+Currently, we need to edit `middle.sh` each time we want to adjust the range of
+lines that is returned.
+Let's fix that by configuring our script to instead use three command-line arguments.
+After the first command-line argument (`$1`), each additional argument that we
+provide will be accessible via the special variables `$1`, `$2`, `$3`,
+which refer to the first, second, third command-line arguments, respectively.
+
+Knowing this, we can use additional arguments to define the range of lines to
+be passed to `head` and `tail` respectively:
+
+```bash
+$ nano middle.sh
+```
+
+```source
+head -n "$2" "$1" | tail -n "$3"
+```
+
+We can now run:
+
+```bash
+$ bash middle.sh pentane.pdb 15 5
+```
+
+```output
+ATOM      9  H           1       1.324   0.350  -1.332  1.00  0.00
+ATOM     10  H           1       1.271   1.378   0.122  1.00  0.00
+ATOM     11  H           1      -0.074  -0.384   1.288  1.00  0.00
+ATOM     12  H           1      -0.048  -1.362  -0.205  1.00  0.00
+ATOM     13  H           1      -1.183   0.500  -1.412  1.00  0.00
+```
+
+By changing the arguments to our command, we can change our script's
+behaviour:
+
+```bash
+$ bash middle.sh pentane.pdb 20 5
+```
+
+```output
+ATOM     14  H           1      -1.259   1.420   0.112  1.00  0.00
+ATOM     15  H           1      -2.608  -0.407   1.130  1.00  0.00
+ATOM     16  H           1      -2.540  -1.303  -0.404  1.00  0.00
+ATOM     17  H           1      -3.393   0.254  -0.321  1.00  0.00
+TER      18              1
+```
+
+This works,
+but it may take the next person who reads `middle.sh` a moment to figure out what it does.
+We can improve our script by adding some **comments** at the top:
+
+```bash
+$ nano middle.sh
+```
+
+```source
+# Select lines from the middle of a file.
+# Usage: bash middle.sh filename end_line num_lines
+head -n "$2" "$1" | tail -n "$3"
+```
+
+A comment starts with a `#` character and runs to the end of the line.
+
+What if we want to process many files in a single pipeline?
+For example, if we want to sort our `.pdb` files by length, we would type:
+
+```bash
+$ wc -l *.pdb | sort -n
+```
+
+because `wc -l` lists the number of lines in the files
+(recall that `wc` stands for 'word count', adding the `-l` option means 'count lines' instead)
+and `sort -n` sorts things numerically.
+We could put this in a file,
+but then it would only ever sort a list of `.pdb` files in the current directory.
+If we want to be able to get a sorted list of other kinds of files,
+we need a way to get all those names into the script.
+We can't use `$1`, `$2`, and so on
+because we don't know how many files there are.
+Instead, we use the special variable `$@`,
+which means,
+'All of the command-line arguments to the shell script'.
+We also should put `$@` inside double-quotes
+to handle the case of arguments containing spaces
+(`"$@"` is special syntax and is equivalent to `"$1"` `"$2"` ...).
+
+Here's an example:
+
+```bash
+$ nano sorted.sh
+```
+
+```source
+# Sort files by their length.
+# Usage: bash sorted.sh one_or_more_filenames
+wc -l "$@" | sort -n
+```
+
+```bash
+$ bash sorted.sh *.pdb ../creatures/*.dat
+```
+
+```output
+9 methane.pdb
+12 ethane.pdb
+15 propane.pdb
+20 cubane.pdb
+21 pentane.pdb
+30 octane.pdb
+163 ../creatures/basilisk.dat
+163 ../creatures/minotaur.dat
+163 ../creatures/unicorn.dat
+596 total
+```
+
+:::{.exercise}
+::::{.exercise-header}
+List Unique Species
+::::
+::::{.exercise-container}
+
+Leah has several hundred data files, each of which is formatted like this:
+
+```source
+2013-11-05,deer,5
+2013-11-05,rabbit,22
+2013-11-05,raccoon,7
+2013-11-06,rabbit,19
+2013-11-06,deer,2
+2013-11-06,fox,1
+2013-11-07,rabbit,18
+2013-11-07,bear,1
+```
+
+An example of this type of file is given in
+`shell-lesson-data/exercise-data/animal-counts/animals.csv`.
+
+We can use the command `cut -d , -f 2 animals.csv | sort | uniq` to produce
+the unique species in `animals.csv`.
+In order to avoid having to type out this series of commands every time,
+a scientist may choose to write a shell script instead.
+
+Write a shell script called `species.sh` that takes any number of
+filenames as command-line arguments and uses a variation of the above command
+to print a list of the unique species appearing in each of those files separately.
+
+:::{.answer}
+
+```bash
+# Script to find unique species in csv files where species is the second data field
+# This script accepts any number of file names as command line arguments
+
+# Loop over all files
+for file in $@
+do
+    echo "Unique species in $file:"
+    # Extract species names
+    cut -d , -f 2 $file | sort | uniq
+done
+```
+:::
+::::
+:::
+
+## Nelle's Pipeline: Creating a Script
+
+Nelle's supervisor insisted that all her analytics must be reproducible.
+The easiest way to capture all the steps is in a script.
+
+First we return to Nelle's project directory:
+
+```bash
+$ cd ../../north-pacific-gyre/
+```
+
+She creates a file using `nano` ...
+
+```bash
+$ nano do-stats.sh
+```
+
+...which contains the following:
+
+```bash
+# Calculate stats for data files.
+for datafile in "$@"
+do
+    echo $datafile
+    bash goostats.sh $datafile stats-$datafile
+done
+```
+
+She saves this in a file called `do-stats.sh`
+so that she can now re-do the first stage of her analysis by typing:
+
+```bash
+$ bash do-stats.sh NENE*A.txt NENE*B.txt
+```
+
+She can also do this:
+
+```bash
+$ bash do-stats.sh NENE*A.txt NENE*B.txt | wc -l
+```
+
+so that the output is just the number of files processed
+rather than the names of the files that were processed.
+
+One thing to note about Nelle's script is that
+it lets the person running it decide what files to process.
+She could have written it as:
+
+```bash
+# Calculate stats for Site A and Site B data files.
+for datafile in NENE*A.txt NENE*B.txt
+do
+    echo $datafile
+    bash goostats.sh $datafile stats-$datafile
+done
+```
+
+The advantage is that this always selects the right files:
+she doesn't have to remember to exclude the 'Z' files.
+The disadvantage is that it *always* selects just those files --- she can't run it on all files
+(including the 'Z' files),
+or on the 'G' or 'H' files her colleagues in Antarctica are producing,
+without editing the script.
+If she wanted to be more adventurous,
+she could modify her script to check for command-line arguments,
+and use `NENE*A.txt NENE*B.txt` if none were provided.
+Of course, this introduces another tradeoff between flexibility and complexity.
+
+## Parallelization
+
+In the last example, we used a script with a for loop to start a program multiple times for different input files. This might as well be a Python or R script. But what if this script takes a long time to run? We might be able to speed things up by running multiple instances of the script in parallel. This is possible because the runs of the script are independent of each other; i.e. each time the script uses a different inputfile and the results of one run of the script do not affect the results of another run.
+
+The most straigthforward way to do this is by creating so-called background jobs. These jobs are started using the `&` at the end of the command.
+
+```bash
+sleep 10
+```
+The `sleep` command will put the command line "to sleep" for n seconds (in this case 30). Actually it just delays the execution of the next command for a specified number of seconds, so it can be useful in a scripts. If we do this again with the `&` at the end of the command, a process will be started in the background and the next command can be executed. 
+```bash
+sleep 30
+```
+
+If we want to know the status of the background job, we can use the `jobs` command.
+
+```bash
+jobs
+```
+```output
+[1]+  Running                 sleep 30 &
+```
+
+:::{.exercise}
+::::{.exercise-header}
+Sleeping in parallel
+::::
+::::{.exercise-container}
+
+Create two files with `nano` called `job.sh` and `task.sh`. 
+
+In `task.sh`, write the following code:
+
+```bash
+sleeptime=$((30+$1))
+sleep $sleeptime
+echo "Done sleeping $sleeptime seconds, job: $1"
+```
+
+The syntax `$(())` in the first line is needed for calculations with variables (alternatives do exist). It means that the variable `sleeptime` is set to 30 plus the value of the variable `$1`.
+
+Now run the following command to test it:
+
+```bash
+bash task.sh 0
+```
+
+In `job.sh` write a script that starts a for loop that starts 6 instances of the `task.sh` program in the background. You can use and adapt this code to accomplish this:
+
+```bash
+for job in 0 1 2 3 4 5 
+do
+    echo "Starting job: $job"
+    # fill in the command to start the task here
+done
+wait
+echo "All jobs done"
+```
+
+Now execute it:
+
+```bash
+bash job.sh
+```
+:::{.answer}
+
+```bash
+for job in 0 1 2 3 4 5
+do
+    echo "Starting job: $job"
+    bash task.sh $job &
+done
+wait
+echo "All jobs done"
+```
+The `wait` command is added to the end of the script to wait for all the background jobs to finish before continuing the script.
+
+:::
+::::
+:::
+
+:::{.infobox}
+::::{.infobox-header}
+Monitoring processes
+::::
+::::{.exercise-container}
+
+If we want to know the status of the background job, we can use the `jobs` command as mentioned above. Alternatively, we can use the `ps` command to get information about current processes.
+
+```bash
+ps -t
+```
+
+The `-t` option to `ps` is used to get only processes associated to the current terminal.
+
+Alternatively, we can use the `top` command:
+
+```bash
+top -U $USER
+```
+The `-U` option to `top` is used to get only processes associated to the current user. This can be a long list. You can scroll down the overview with the down arrow. Press `q` to quit the overview.
+
+::::
+:::
+
+:::{.infobox}
+::::{.infobox-header}
+Killing processes
+::::
+::::{.exercise-container}
+
+If we start a process in the background, we get a process ID (PID) directly in the output, e.g.:
+```bash
+sleep 30 &
+```
+```output
+[1] 54932
+```
+In case we don't know the PID, we can get it from the output of `ps` or `top`. Both in the output of `ps` and `top` we see a column `PID`.
+
+With the `kill` command we can kill a process with a specific PID. If the PID would be `54932`, we would use:
+
+```bash
+kill 54932
+```
+::::
+:::
+
+:::{.infobox}
+::::{.infobox-header}
+Keypoints
+::::
+::::{.exercise-container}
+- Loops are used to repeat commands
+- Variables are used to store information and are can be reference with the `$` symbol
+- Scripts are used to automate tasks
+- Arguments are used to pass information to scripts
+- Arguments can be referenced with the `$1`, `$2`, `$3`, ...
+- Background jobs are started using the `&` at the end of the command
+- While the background job is running, the next command of the script can be executed
+- The `wait` command can be used to wait for all background jobs to finish before proceeding with the next command.
+- Background jobs get a process ID (PID) which can be used to kill the process
+::::
+:::

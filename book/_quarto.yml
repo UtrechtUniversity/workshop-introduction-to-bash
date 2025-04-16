@@ -25,19 +25,24 @@ website:
       - section: "Course information"
         contents:
           - href: index.qmd
-            text: Home
-      - section: "Introduction"
+      - section: "Contents"
         contents:
-          - href: chapter1.qmd
-            text: Chapter 1
-      - section: "Advanced"
-        contents:
-          - href: chapter2.qmd
-            text: Chapter 2
+          - href: modules/module1.qmd
+            text: Introduction
+          - href: modules/module2.qmd
+            text: Files and directories
+          - href: modules/module3.qmd
+            text: Creating and editing files
+          - href: modules/module4.qmd
+            text: Pipes and filters
+          - href: modules/module5.qmd
+            text: Scripts, variables and parallelization
+          - href: modules/module6.qmd
+            text: SSH and SCP
 
 format:
   html:
     theme: 
       light: [cosmo, styles/theme-light.scss]
       dark: [cosmo, styles/theme-dark.scss]
-    css: styles.css
+

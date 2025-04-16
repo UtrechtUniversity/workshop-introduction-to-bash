@@ -1,0 +1,16 @@
+---
+title: 06 - SSH and SCP
+subtitle: Logging in to remote computers and data transfer
+time: "0:15"
+execute: 
+  cache: true
+  freeze: true
+
+---
+
+Welcome to chapter 2!
+
+
+## Exercises
+
+

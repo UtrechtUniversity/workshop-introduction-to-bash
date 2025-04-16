@@ -1,6 +1,24 @@
+---
+listing:
+  - id: programme
+    contents: 
+    - /modules/module*.qmd
+    type: table
+    sort: 
+    - "title asc"
+    fields: [time, title, subtitle]
+    field-display-names:
+      time: "Time"
+      title: "Title"
+      subtitle: "Description"
+    sort-ui: false
+    filter-ui: false
+---
+
+
 # Welcome! {.unnumbered}
 
-Welcome to this template github repository that is developed by [Research Data Management support at Utrecht University](https://www.uu.nl/en/research/research-data-management). This template combines two quarto projects (book and slides) in one github repository for creating a book with embedded slides.
+Welcome to the workshop Introduction to Bash and essential HPC skills that is developed by [Lukas van de Wiel](https://www.uu.nl/staff/LYvandeWiel) and [Jelle Treep](https://www.uu.nl/staff/HJTreep). The workshop is part of the [HPC Spring School @ UU](https://utrechtuniversity.github.io/hpc-spring-school/) organized by the [UDCC](https://www.uu.nl/en/research/digital-competence-center).
 
-- [Chapter 1](chapter1.qmd)  
-- [Chapter 2](chapter2.qmd)
+The contents of this workshop are for a large part based on material of the workshop '[The Unix Shell](https://swcarpentry.github.io/shell-novice/index.html)' developed by the [Software Carpentries](https://software-carpentry.org/) and published under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) license.
+
