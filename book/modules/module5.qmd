@@ -1,7 +1,7 @@
 ---
 title: 05 - Scripts and variables
 subtitle: Automating workflows
-time: "0:50"
+time: "2:30"
 execute: 
   cache: true
   freeze: true

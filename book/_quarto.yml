@@ -25,6 +25,7 @@ website:
       - section: "Course information"
         contents:
           - href: index.qmd
+          - href: modules/setup.qmd
       - section: "Contents"
         contents:
           - href: modules/module1.qmd

@@ -1,16 +1,203 @@
 ---
 title: 06 - SSH and SCP
 subtitle: Logging in to remote computers and data transfer
-time: "0:15"
+time: "3:20"
 execute: 
   cache: true
   freeze: true
-
+custom-callout:
+  answer:
+    icon-symbol: "📝"
+    color: "teal"
+    title: "Solution (Click to Expand)"
+    collapse: true
+filters:
+- custom-callout
 ---
 
-Welcome to chapter 2!
+HPC systems (supercomputers, computer clusters, virtual machines in the cloud) are 'remote' resources that we connect to over the internet. There are various ways to connect to a remote machine, and in recent years web portals have become available for this purpose. `ssh` is the traditional way to connect to a remote machine from the command line, and it is still very practical to use `ssh` for various reasons such as data transfer, automation of workflows, and more flexibility and control over the remote machine. And if you are fluent in using the command line, then it is generally faster to work with the command line than the graphical user interface.
+
+SSH stands for Secure SHell protocol, and is used to open an encrypted network connection between two machines, allowing you to send & receive text and data without having to worry about prying eyes.
+
+![](https://carpentries-incubator.github.io/hpc-intro/fig/connect-to-remote.svg)
+
+This mechanism consists of a key on your own home computer, and a key on the computer you wish to connect to. They form a set (although they are by no means identical) and as such a login attempt can be validated. The key on your own computer from which you wish to connect to a remote system is the private key, and you should not share this with anyone. The key on the remote system is the public key, and you can use it for multiple purposes/platforms as you wish (e.g. a compute cluster, a virtual machine in the cloud, GitHub).
+
+:::{.callout-warning title="Private keys are your secure digital passport"}
+
+A private key that is visible to anyone should be considered compromised, and must be destroyed. This includes having improper permissions on the directory it (or a copy) is stored in, traversing any network that is not secure (encrypted), attachment on unencrypted email, and even displaying the key on your terminal window.
+
+Protect this key as if it unlocks your front door. In many ways, it does.
+:::
+
+The Lesson Setup provides instructions for creating ssh keys. If you have not done so already, please setup the keys now.
+
+## Log in to a remote machine
 
 
-## Exercises
+log in to the
+cluster. Replace `<your username>` with your username and `<ip address>` with the one supplied by the instructors.
+
+```bash
+ssh <your username>@<ip address>
+```
+
+You may be asked for your password. Watch out: the characters you type after
+the password prompt are not displayed on the screen. Normal output will resume
+once you press `Enter`.
+
+You may have noticed that the prompt changed when you logged into the remote
+system using the terminal
+
+This change is important because
+it can help you distinguish on which system the commands you type will be run
+when you pass them into the terminal. This change is also a small complication
+that we will need to navigate throughout the workshop. Exactly what is displayed
+as the prompt (which conventionally ends in `$`) in the terminal when it is
+connected to the local system and the remote system will typically be different
+for every user. We still need to indicate which system we are entering commands
+on though so we will adopt the following convention:
+
+* {{< var site.localprompt >}} when the command is to be entered on a terminal
+  connected to your local computer
+* {{< var site.remoteprompt >}} when the command is to be entered on a
+  terminal connected to the remote system
+* `$` when it really doesn't matter which system the terminal is connected to.
+
+## Looking Around Your Remote Home
+
+Very often, many users are tempted to think of a high-performance computing
+installation as one giant, magical machine. Sometimes, people will assume that
+the computer they've logged onto is the entire computing cluster. So what's
+really happening? What computer have we logged on to? The name of the current
+computer we are logged onto can be checked with the `hostname` command. (You
+may also notice that the current hostname is also part of our prompt!)
+
+```bash
+{{< var site.remoteprompt >}} hostname
+```
+
+```output
+login1
+```
+
+So, we're definitely on the remote machine. Next, let's find out where we are
+by running `pwd` to **p**rint the **w**orking **d**irectory.
+
+```bash
+{{< var site.remoteprompt >}} pwd
+```
+
+```output
+/home/yourUsername
+```
 
 
+Great, we know where we are! Let's see what's in our current directory:
+
+```bash
+{{< var site.remoteprompt >}} ls
+```
+
+## Data transfer
+
+There are 2 main options to get data to your remote system:
+
+- Downloading data that is somewhere on the internet
+- Uploading data from your laptop
+
+### Downloading data
+
+If the code or data that you need has a URL, you can use the `wget` or `curl` command to download (one or both of these commands are usually installed in most Linux based systems). 
+
+```bash
+wget -O new_name https://some/link/to/a/file
+curl -o new_name https://some/link/to/a/file
+```
+
+:::{.exercise}
+::::{.exercise-header}
+Download using `wget` and `curl`
+::::
+::::{.exercise-container}
+Try to download the workshop material of this workshop on the remote machine. The material is available via this url: `https://swcarpentry.github.io/shell-novice/data/shell-lesson-data.zip`
+
+:::{.answer}
+```bash
+wget -O workshop-material.zip https://swcarpentry.github.io/shell-novice/data/shell-lesson-data.zip
+```
+:::
+::::
+:::
+
+Assuming Git is installed on the remote system, you can clone repositories as follows:
+
+```bash
+git clone https://github.com/UtrechtUniversity/workshop-introduction-to-bash.git
+```
+
+Datasets that are stored on e.g. SURFdrive or Yoda can be downloaded using tools that (if they are not available already) can be installed.  `rclone` for SURFdrive and `ibridges` or `icommands` for Yoda. Manuals can be found [here](https://utrechtuniversity.github.io/vre-docs/docs/manuals.html).
+
+### Uploading data
+
+## scp
+When you work on a Windows machine and you use MobaXterm for SSH connection, you can use the file browser in MobaXterm to intuitively transfer data. 
+
+In all other cases: Open a terminal (or shell session) that you use for login in to your workspace via the `ssh` command. 
+
+```
+scp sourcefile <username>@<ip-address>:destinationdir
+```
+
+You can find both the username and the ip-address in the [research cloud portal](https://portal.live.surfresearchcloud.nl/).
+Find your username under the 'Profile' tab.  
+Find the IP address of your workspace in the main Dashboard by clicking the drop down arrow of the running Workspace.
+
+```
+scp testfile.txt <username>@<ip-address>:data/storage/input_data
+```
+If you first need to create a destination folder where you want to transfer the data to:
+
+```
+ssh <username>@<ip-address>
+mkdir ~/data/storage/input_data
+logout
+scp testfile.txt <username>@<ip-address>:data/storage/input_data
+```
+
+To transfer a directory add the `-r` option:
+
+```
+scp -r sourcedir <username>@<ip-address>:data/storage/input_data
+```
+
+## rsync
+
+Rsync is a tool for synchronizing two folders. This method can also be used to transfer the contents of a folder to a remote folder. You typically run this tool on your own PC in the [terminal](../manuals/terminal.qmd) (so e.g.before login in using the `ssh` command, or in a separate terminal (or shell session)).
+
+Type `rsync --help` on to see if it is installed on your system. To install:
+
+### Install
+
+On Debian based linux (e.g. Ubuntu):
+
+```
+sudo apt-get install rsync
+```
+
+On mac:
+```
+brew install rsync
+```
+
+### Usage
+
+```
+rsync -azP ./my_local_folder <username>@<ip-address>:my_destination_folder
+```
+
+```
+rsync -azP ./my_local_folder <username>@<ip-address>:~/data/storage/input_data
+```
+
+Where `-azP` are options. Type `rsync --help` to see a list of the options.

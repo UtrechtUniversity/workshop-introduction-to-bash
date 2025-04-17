@@ -1,0 +1,4 @@
+site:
+  localprompt: '`[you@laptop:~]$`'
+  remoteprompt: '`[yourUsername@login1 ~]$`'
+  anyprompt: '`$`'

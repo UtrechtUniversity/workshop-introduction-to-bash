@@ -1,7 +1,7 @@
 ---
 title: 01 - The Bash shell
 subtitle: Introducing to linux command line
-time: "0:30"
+time: "0:00"
 execute: 
   cache: true
   freeze: true
