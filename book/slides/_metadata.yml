@@ -4,8 +4,10 @@ format:
     progress: true
     width: 1920
     height: 1080
+    margin: 0.1
     embed-resources: true
     slide-number: true
     navigation-mode: linear
     controls: true
+    code-line-numbers: false
 search: false
