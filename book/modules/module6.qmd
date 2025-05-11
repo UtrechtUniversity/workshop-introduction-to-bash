@@ -15,36 +15,89 @@ filters:
 - custom-callout
 ---
 
-HPC systems (supercomputers, computer clusters, virtual machines in the cloud) are 'remote' resources that we connect to over the internet. There are various ways to connect to a remote machine, and in recent years web portals have become available for this purpose. `ssh` is the traditional way to connect to a remote machine from the command line, and it is still very practical to use `ssh` for various reasons such as data transfer, automation of workflows, and more flexibility and control over the remote machine. And if you are fluent in using the command line, then it is generally faster to work with the command line than the graphical user interface.
+| Objectives | Questions |
+| --- | --- |
+| Use SSH to connect to another computer | How do I connect do another computer? |
+| Set up SSH keys |  |
+| Be able to transfer data to and from the remote computer | How do I get my data to a remote computer? |
 
-SSH stands for Secure SHell protocol, and is used to open an encrypted network connection between two machines, allowing you to send & receive text and data without having to worry about prying eyes.
-
-![](https://carpentries-incubator.github.io/hpc-intro/fig/connect-to-remote.svg)
-
-This mechanism consists of a key on your own home computer, and a key on the computer you wish to connect to. They form a set (although they are by no means identical) and as such a login attempt can be validated. The key on your own computer from which you wish to connect to a remote system is the private key, and you should not share this with anyone. The key on the remote system is the public key, and you can use it for multiple purposes/platforms as you wish (e.g. a compute cluster, a virtual machine in the cloud, GitHub).
-
-:::{.callout-warning title="Private keys are your secure digital passport"}
-
-A private key that is visible to anyone should be considered compromised, and must be destroyed. This includes having improper permissions on the directory it (or a copy) is stored in, traversing any network that is not secure (encrypted), attachment on unencrypted email, and even displaying the key on your terminal window.
-
-Protect this key as if it unlocks your front door. In many ways, it does.
-:::
-
-The Lesson Setup provides instructions for creating ssh keys. If you have not done so already, please setup the keys now.
 
 ## Log in to a remote machine
 
+So far we have only executed commands on our own computer. HPC systems (supercomputers, computer clusters, virtual machines in the cloud) are 'remote' computers that are located somewhere. Commonly such computers are called 'remote'. We connect to remote computers over the internet. 
 
-log in to the
-cluster. Replace `<your username>` with your username and `<ip address>` with the one supplied by the instructors.
+We connect to remote computers using SSH (other methods exist). 
+SSH stands for Secure SHell protocol, 
+and is used to open an encrypted network connection between two machines, 
+allowing you to send and receive text and data without having to worry about prying eyes.
+
+![](https://carpentries-incubator.github.io/hpc-intro/fig/connect-to-remote.svg)
+
+To be able to connect to another computer, you first need an account on it.
+Fortunately you have an account on Eejit, the HPC-cluster of the
+Department of Earth Sciences of Utrecht University!
+
+You can login using the command
 
 ```bash
-ssh <your username>@<ip address>
+ssh <your username>@<address>
 ```
 
-You may be asked for your password. Watch out: the characters you type after
-the password prompt are not displayed on the screen. Normal output will resume
-once you press `Enter`.
+The address for Eejit is:  `eejit.geo.uu.nl`
+
+You will be asked for your password. Watch out: the characters you type after
+the password prompt are not displayed on the screen, so that villains near you 
+cannot see it. Normal output will resume once you press `Enter`.
+
+You will see a flush of information, which is called the 'message of the day':
+
+```output
+********************************************************************
+*                                                                  *
+*                        Welcome to Eejit !                        *
+*                                                                  *
+********************************************************************
+*                                                                  *
+*   For more information: https://eejit-doc.geo.uu.nl/mediawiki/   *
+*   (Login for this wiki is the same as for Eejit itself.          *
+*    When logging in, make sure to click the blue button after     *
+*    entering the credentials in stead of pressing [enter].)       *
+*                                                                  *
+********************************************************************
+*                                                                  *
+*  Software in Eejit in stored in four main module categories:     *
+* (https://eejit-doc.geo.uu.nl/mediawiki/index.php?title=Modules)  *
+*                                                                  *
+*  1: codes: large software packages to run simulations.           *
+*  2: development: compilers, parallellization, etc.               *
+*    (Module dev2024 contains a complete modern environment.       *
+*     Module devStable contains a less cutting edge environment.)  *
+*  3: libraries: libraries for various requirements.               *
+*  4: tools: software for visualisation, meshing, etc.             *
+*                                                                  *
+********************************************************************
+*                                                                  *
+*  Eejit uses the Slurm queueing system to run parallel jobs.      *
+*  For documentation and examples see:                             *
+*  https://eejit-doc.geo.uu.nl/mediawiki/index.php?title=Scheduler *
+*                                                                  *
+********************************************************************
+*                                                                  *
+*  The login node runs fail2ban. This mechanism bans logins for    *
+*  15 minutes after 3 incorrect login attempts. This prevents      *
+*  mailicious login attempts.                                      *
+*                                                                  *
+********************************************************************
+*                                                                  *
+*   Questions? Contact Lukas van de Wiel (l.y.vandewiel@uu.nl)     *
+*              or Theo van Zessen          (t.vanzessen@uu.nl)     *
+*                                                                  *
+********************************************************************
+(<time> <username>@login01 ~) >
+```
+
+Welcome to supercomputing! Congratulations.
+
 
 You may have noticed that the prompt changed when you logged into the remote
 system using the terminal
@@ -53,10 +106,10 @@ This change is important because
 it can help you distinguish on which system the commands you type will be run
 when you pass them into the terminal. This change is also a small complication
 that we will need to navigate throughout the workshop. Exactly what is displayed
-as the prompt (which conventionally ends in `$`) in the terminal when it is
-connected to the local system and the remote system will typically be different
-for every user. We still need to indicate which system we are entering commands
-on though so we will adopt the following convention:
+as the prompt (which conventionally ends in `$` or in `>`) in the terminal when it is
+connected to your own computer and the remote system will typically be different
+for every user. To distinguish between the two computers, we will use the
+following convention:
 
 * {{< var site.localprompt >}} when the command is to be entered on a terminal
   connected to your local computer
@@ -64,24 +117,51 @@ on though so we will adopt the following convention:
   terminal connected to the remote system
 * `$` when it really doesn't matter which system the terminal is connected to.
 
-## Looking Around Your Remote Home
+### SSH keys
 
-Very often, many users are tempted to think of a high-performance computing
-installation as one giant, magical machine. Sometimes, people will assume that
-the computer they've logged onto is the entire computing cluster. So what's
-really happening? What computer have we logged on to? The name of the current
-computer we are logged onto can be checked with the `hostname` command. (You
-may also notice that the current hostname is also part of our prompt!)
+When logging in to a machine using SSH, 
+the regular method is to enter username and password, 
+and be granted access. 
+Typing your password over and over again becomes annoying. 
+There is a better way using SSH keys.
+
+When logging in to Eejit from outside the campus logging by username/password is disabled, 
+and you must have a key pair set up to log in.
+
+This mechanism consists of a key on your own home computer, 
+and a key on the computer you wish to connect to (in this case Eejit). 
+They form a set (although they are by no means identical) 
+and using this set a login attempt can be validated. 
+The key on your own computer from which you wish to connect to Eejit is the private key, 
+and you should not share this with anyone. 
+The key on the remote machine (Eejit) is the public key, 
+and you can spread this around to where ever you wish to login. 
+
+The key pair is always created on the machine from which you want to connect to something else. 
+Typically this from-machine will be your home computer. 
+The private key will always remain on your own computer, 
+so that it can remain private. 
+The public key will eventually be uploaded to another computer that you want to connect to, 
+in this case Eejit. 
+
+:::{.callout-warning title="Private keys are your secure digital passport"}
+If your private key becomes publicly available, the key pair is compromised 
+and a new key pair has to be generated and the public keys replaced with the new one. 
+:::
+
+#### Uploading your key to Eejit
+
+Check the [setup instructions](setup.qmd) if you didn't create a key pair yet.
+
+The key can be uploaded to eejit using the command:
 
 ```bash
-{{< var site.remoteprompt >}} hostname
+{{< var site.localprompt >}} ssh-copy-id <username>@eejit.geo.uu.nl
 ```
 
-```output
-login1
-```
+## Looking Around Your Remote Home
 
-So, we're definitely on the remote machine. Next, let's find out where we are
+Let's find out where we are
 by running `pwd` to **p**rint the **w**orking **d**irectory.
 
 ```bash
@@ -89,9 +169,10 @@ by running `pwd` to **p**rint the **w**orking **d**irectory.
 ```
 
 ```output
-/home/yourUsername
+/eejit/home/yourUsername
 ```
 
+so we're definitely on the remote machine!
 
 Great, we know where we are! Let's see what's in our current directory:
 
@@ -99,16 +180,23 @@ Great, we know where we are! Let's see what's in our current directory:
 {{< var site.remoteprompt >}} ls
 ```
 
+There is nothing... yet! Let us do something about that.
+
 ## Data transfer
+
+### Transfer data to the remote computer
 
 There are 2 main options to get data to your remote system:
 
-- Downloading data that is somewhere on the internet
+- Downloading data from the internet
 - Uploading data from your laptop
 
-### Downloading data
 
-If the code or data that you need has a URL, you can use the `wget` or `curl` command to download (one or both of these commands are usually installed in most Linux based systems). 
+#### Downloading data from the internet
+
+If the code or data that you need is available on the internet and has a URL, 
+you can use the `wget` or `curl` command to download (one or both of these 
+commands are usually installed in most Linux based systems). 
 
 ```bash
 wget -O new_name https://some/link/to/a/file
@@ -120,7 +208,8 @@ curl -o new_name https://some/link/to/a/file
 Download using `wget` and `curl`
 ::::
 ::::{.exercise-container}
-Try to download the workshop material of this workshop on the remote machine. The material is available via this url: `https://swcarpentry.github.io/shell-novice/data/shell-lesson-data.zip`
+Try to download the workshop material of this workshop on the remote machine. 
+The material is available via this url: `https://swcarpentry.github.io/shell-novice/data/shell-lesson-data.zip`
 
 :::{.answer}
 ```bash
@@ -136,44 +225,64 @@ Assuming Git is installed on the remote system, you can clone repositories as fo
 git clone https://github.com/UtrechtUniversity/workshop-introduction-to-bash.git
 ```
 
-Datasets that are stored on e.g. SURFdrive or Yoda can be downloaded using tools that (if they are not available already) can be installed.  `rclone` for SURFdrive and `ibridges` or `icommands` for Yoda. Manuals can be found [here](https://utrechtuniversity.github.io/vre-docs/docs/manuals.html).
 
-### Uploading data
+#### Transfer data from the remote computer to your local computer (uploading)
+
 
 ## scp
-When you work on a Windows machine and you use MobaXterm for SSH connection, you can use the file browser in MobaXterm to intuitively transfer data. 
+When you work on a Windows machine and you use MobaXterm for SSH connection, 
+you can use the file browser in MobaXterm to transfer data. There are two icons,
+one with an arrow pointing up, for uploading to the remote computer, and one with an
+arrow pointing down, for downloading from the remote computer.
 
-In all other cases: Open a terminal (or shell session) that you use for login in to your workspace via the `ssh` command. 
+In all other cases: Open a terminal (or shell session) that you use for logging
+in to your workspace via the `scp` (secure copy) command.
 
-```
-scp sourcefile <username>@<ip-address>:destinationdir
-```
-
-You can find both the username and the ip-address in the [research cloud portal](https://portal.live.surfresearchcloud.nl/).
-Find your username under the 'Profile' tab.  
-Find the IP address of your workspace in the main Dashboard by clicking the drop down arrow of the running Workspace.
+Remember the syntax of the vanilla copy command:
 
 ```
-scp testfile.txt <username>@<ip-address>:data/storage/input_data
-```
-If you first need to create a destination folder where you want to transfer the data to:
-
-```
-ssh <username>@<ip-address>
-mkdir ~/data/storage/input_data
-logout
-scp testfile.txt <username>@<ip-address>:data/storage/input_data
+$ cp source destination
 ```
 
-To transfer a directory add the `-r` option:
+The scp command is similar, but we need to add the address of the remote computer:
+
+```
+{{< var site.localprompt >}} scp source <username>@<address>:destination
+```
+
+such as:
+
+```
+{{< var site.localprompt >}} scp testfile.txt <username>@eejit.geo.uu.nl:.
+```
+
+Remember the . stands for 'current working directory'. This is the directory 
+you would end up in if you make an ssh-connection.
+
+
+To transfer an entire directory add the `-r` option, just as with the regular `cp` command:
 
 ```
 scp -r sourcedir <username>@<ip-address>:data/storage/input_data
 ```
 
-## rsync
+### Transfer data from the remote computer to your local computer
 
-Rsync is a tool for synchronizing two folders. This method can also be used to transfer the contents of a folder to a remote folder. You typically run this tool on your own PC in the [terminal](../manuals/terminal.qmd) (so e.g.before login in using the `ssh` command, or in a separate terminal (or shell session)).
+You may want to get results of your computations to your own computer to create figures, 
+back it up, etc.
+
+This can be done again with scp in a very similar way
+
+```
+scp <username>@<address>:source  destination
+```
+
+:::{.infobox}
+::::{.infobox-header}
+Transferring folders
+::::
+::::{.exercise-container}
+Rsync is a tool for synchronizing two folders. This method can also be used to transfer the contents of a folder to a remote folder. You typically run this tool on your own PC in the terminal (so e.g.before login in using the `ssh` command, or in a separate terminal (or shell session)).
 
 Type `rsync --help` on to see if it is installed on your system. To install:
 
@@ -200,4 +309,23 @@ rsync -azP ./my_local_folder <username>@<ip-address>:my_destination_folder
 rsync -azP ./my_local_folder <username>@<ip-address>:~/data/storage/input_data
 ```
 
-Where `-azP` are options. Type `rsync --help` to see a list of the options.
+Where `-azP` are handy options. Type `rsync --help` to see a list of the options.
+::::
+::: 
+
+
+:::{.infobox}
+::::{.infobox-header}
+Keypoints
+::::
+::::{.exercise-container}
+- `ssh` is used to connect to another computer.
+- SSH keys enable logging in without password.
+- Always guard your private key.
+- scp can be used to transfer data to and from the remote computer.
+- scp is very much like cp. It only adds the account info of the remote computer.
+::::
+:::
+
+
+

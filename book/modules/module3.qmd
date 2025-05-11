@@ -1,6 +1,6 @@
 ---
 title: 03 - Creating and editing files
-subtitle: Folder and file manipulations and text editors
+subtitle: Directory and file manipulations and text editors
 time: "1:00"
 execute: 
   cache: true
@@ -18,8 +18,8 @@ filters:
 | Objectives | Questions |
 | --- | --- |
 | Delete, copy and move specified files and/or directories. | How can I create, copy, and delete files and directories? |
-| Create files in that hierarchy using an editor or by copying and renaming existing files. | How can I edit files? |
-| Create a directory hierarchy that matches a given diagram. | |
+| Create files using an editor or by copying and renaming existing files. | How can I edit files? |
+| Create a directory hierarchy. | |
 
 ## Creating directories
 
@@ -46,14 +46,55 @@ Next we'll move to the `exercise-data/writing` directory and see what it contain
 
 ```bash
 $ cd exercise-data/writing/
-$ ls -F
+$ ls
 ```
 
 ```output
 haiku.txt  LittleWomen.txt
 ```
 
+:::{.infobox}
+::::{.infobox-header}
+What's In A Name?
+::::
+::::{.exercise-container}
+
+These two files are named 'something dot
+something'. These two files use the extension
+`.txt`.  This is just a convention; we can call a file `mythesis` or
+almost anything else we want. However, most people use two-part names
+most of the time to help them (and their programs) tell different kinds
+of files apart. The second part of such a name is called the
+**filename extension** and indicates
+what type of data the file holds: `.txt` signals a plain text file, `.pdf`
+indicates a PDF document, `.cfg` is a configuration file, `.png` is a PNG image, and so on.
+
+This is just a convention, albeit an important one. Files merely contain
+bytes; it's up to us and our programs to interpret those bytes
+according to the rules for plain text files, PDF documents, configuration
+files, images, and so on.
+
+Naming a PNG image of a whale as `whale.mp3` doesn't somehow
+magically turn it into a recording of whale song, though it *might*
+cause the operating system to associate the file with a music player
+program. In this case, if someone double-clicked `whale.mp3` in a file
+explorer program, the music player will automatically (and erroneously)
+attempt to open the `whale.mp3` file.
+
+From the old days, file extensions use three characters.
+Since before you were born, you were no longer bound by this restriction. Make you extensions
+as long as you wish, but keep them sensible.
+
+
+::::
+:::
+
+
 ### Create a directory
+
+Directories can be created using the command `mkdir`,
+which stands for `make directory`. Its argument is the name of the desired directory.
+
 
 Let's create a new directory called `thesis` using the command `mkdir thesis`
 (which has no output):
@@ -62,8 +103,6 @@ Let's create a new directory called `thesis` using the command `mkdir thesis`
 $ mkdir thesis
 ```
 
-As you might guess from its name,
-`mkdir` means 'make directory'.
 Since `thesis` is a relative path
 (i.e., does not have a leading slash, like `/what/ever/thesis`),
 the new directory is created in the current working directory:
@@ -79,7 +118,7 @@ haiku.txt  LittleWomen.txt  thesis/
 Since we've just created the `thesis` directory, there's nothing in it yet:
 
 ```bash
-$ ls -F thesis
+$ ls thesis
 ```
 
 Note that `mkdir` is not limited to creating single directories one at a time.
@@ -113,8 +152,8 @@ Two ways of doing the same thing
 ::::
 ::::{.exercise-container}
 
-Using the shell to create a directory is no different than using a file explorer.
-If you open the current directory using your operating system's graphical file explorer,
+Using the shell to create a directory is no different than using a graphical file manager (such as Windows File Explorer).
+If you open the current directory using your operating system's graphical file manager,
 the `thesis` directory will appear there too.
 While the shell and the file explorer are two different ways of interacting with the files,
 the files and directories themselves are the same.
@@ -143,9 +182,9 @@ are made when you check with `ls -F`.
 
 2. Don't begin the name with `-` (dash).
 
-Commands treat names starting with `-` as options.
+Commands treat strings starting with `-` as options. 
 
-3. Stick with letters, numbers, `.` (period or 'full stop'), `-` (dash) and `_` (underscore).
+3. Stick with letters, numbers, `.` (period or 'full stop'), and `_` (underscore).
 
 Many other characters have special meanings on the command line.
 We will learn about some of these during this lesson.
@@ -155,6 +194,15 @@ expected and can even result in data loss.
 If you need to refer to names of files or directories that have spaces
 or other special characters, you should surround the name in single
 [quotes](https://www.gnu.org/software/bash/manual/html_node/Quoting.html) (`''`).
+
+4. Be consistent with upper and lower case characters in file names. 
+
+Some operating systems are 'case sensitive' 
+(they make distrinction between upper case and lower case character). Some do not.
+Some programming languages are case sensitive, and some are not. Assume that everything
+is case sensitive, and stick to one convention to avoid confusion and make everthing easier on the eye.
+
+`myAwesomeFile.data` and `myawesomefile.data` do not play well together.
 
 ::::
 :::
@@ -177,15 +225,19 @@ Which Editor?
 
 When we say, '`nano` is a text editor' we really do mean 'text'. It can
 only work with plain character data, not tables, images, or any other
-human-friendly media. We use it in examples because it is one of the
+content, not can you move the cursor around by clicking on it with your mouse pointer.
+The cursor can be moved with the arrow keys, `[home]`, `[end]`, `[page up]` and `[page down]`.
+
+We use it in examples because it is one of the
 least complex text editors. However, because of this trait, it may
 not be powerful enough or flexible enough for the work you need to do
 after this workshop. On Unix systems (such as Linux and macOS),
 many programmers use [Emacs](https://www.gnu.org/software/emacs/) or
 [Vim](https://www.vim.org/) (both of which require more time to learn),
-or a graphical editor such as [Gedit](https://projects.gnome.org/gedit/)
-or [VScode](https://code.visualstudio.com/). On Windows, you may wish to
-use [Notepad++](https://notepad-plus-plus.org/).  Windows also has a built-in
+or a graphical editor such as [Gedit](https://projects.gnome.org/gedit/),
+[Geany](https://geany.org/)
+or [VScode](https://code.visualstudio.com/) (or the equally good open source variant without telemetry [VSCodium](https://vscodium.com/)). On Windows, you may wish to
+use [Notepad++](https://notepad-plus-plus.org/), [Atom](https://atom-editor.cc/), or VSCode/VSCodium.  Windows also has a built-in
 editor called `notepad` that can be run from the command line in the same
 way as `nano` for the purposes of this lesson.
 
@@ -248,115 +300,46 @@ $ ls
 draft.txt
 ```
 
-:::{.exercise}
-::::{.exercise-header}
-Creating Files a Different Way
-::::
-::::{.exercise-container}
-
-We have seen how to create text files using the `nano` editor.
-Now, try the following command:
+And we can see the content of the file with the command `cat` (which stands for 'concatenate') 
+which is great for displaying the content of small files:
 
 ```bash
-$ touch my_file.txt
+$ cat draft.txt
 ```
 
-1. What did the `touch` command do?
-  When you look at your current directory using the GUI file explorer,
-  does the file show up?
-
-2. Use `ls -l` to inspect the files.  How large is `my_file.txt`?
-
-3. When might you want to create a file this way?
-
-
-::: {.answer}
-
-1. The `touch` command generates a new file called `my_file.txt` in
-  your current directory.  You
-  can observe this newly generated file by typing `ls` at the
-  command line prompt.  `my_file.txt` can also be viewed in your
-  GUI file explorer.
-
-2. When you inspect the file with `ls -l`, note that the size of
-  `my_file.txt` is 0 bytes.  In other words, it contains no data.
-  If you open `my_file.txt` using your text editor it is blank.
-
-3. Some programs do not generate output files themselves, but
-  instead require that empty files have already been generated.
-  When the program is run, it searches for an existing file to
-  populate with its output.  The touch command allows you to
-  efficiently generate a blank text file to be used by such
-  programs.
-
-:::
-
-To avoid confusion later on,
-we suggest removing the file you've just created before proceeding with the rest
-of the episode, otherwise future outputs may vary from those given in the lesson.
-To do this, use the following command:
-
-```bash
-$ rm my_file.txt
+```output
+It's  not "publish or perish" any more,
+it's "share and thrive".
 ```
 
-::::
-:::
-
-:::{.infobox}
-::::{.infobox-header}
-What's In A Name?
-::::
-::::{.exercise-container}
-
-You may have noticed that all of Nelle's files are named 'something dot
-something', and in this part of the lesson, we always used the extension
-`.txt`.  This is just a convention; we can call a file `mythesis` or
-almost anything else we want. However, most people use two-part names
-most of the time to help them (and their programs) tell different kinds
-of files apart. The second part of such a name is called the
-**filename extension** and indicates
-what type of data the file holds: `.txt` signals a plain text file, `.pdf`
-indicates a PDF document, `.cfg` is a configuration file full of parameters
-for some program or other, `.png` is a PNG image, and so on.
-
-This is just a convention, albeit an important one. Files merely contain
-bytes; it's up to us and our programs to interpret those bytes
-according to the rules for plain text files, PDF documents, configuration
-files, images, and so on.
-
-Naming a PNG image of a whale as `whale.mp3` doesn't somehow
-magically turn it into a recording of whale song, though it *might*
-cause the operating system to associate the file with a music player
-program. In this case, if someone double-clicked `whale.mp3` in a file
-explorer program, the music player will automatically (and erroneously)
-attempt to open the `whale.mp3` file.
-
-::::
-:::
 
 ## Moving files and directories
 
-Returning to the `shell-lesson-data/exercise-data/writing` directory,
+Return to the `shell-lesson-data/exercise-data/writing` directory,
 
 ```bash
 $ cd ~/Desktop/shell-lesson-data/exercise-data/writing
 ```
 
 In our `thesis` directory we have a file `draft.txt`
-which isn't a particularly informative name,
-so let's change the file's name using `mv`,
-which is short for 'move':
+which isn't a particularly informative name.
+The name of the file can be changed with the command `mv`,
+which is short for 'move'.
+It is our first command that has two arguments.
+
+```bash
+$ mv [source] [destination]
+```
+
+In this case,
+we're moving `thesis/draft.txt` to `thesis/quotes.txt`,
+which has the same effect as renaming the file.
+
 
 ```bash
 $ mv thesis/draft.txt thesis/quotes.txt
 ```
 
-The first argument tells `mv` what we're 'moving',
-while the second is where it's to go.
-In this case,
-we're moving `thesis/draft.txt` to `thesis/quotes.txt`,
-which has the same effect as renaming the file.
 Sure enough,
 `ls` shows us that `thesis` now contains one file called `quotes.txt`:
 
@@ -425,13 +408,13 @@ quotes.txt
 
 :::{.exercise}
 ::::{.exercise-header}
-Moving Files to a new folder
+Moving Files to a new directory
 
 ::::
 ::::{.exercise-container}
 After running the following commands,
-Jamie realizes that she put the files `sucrose.dat` and `maltose.dat` into the wrong folder.
-The files should have been placed in the `raw` folder.
+Nelle realizes that she put the files `sucrose.dat` and `maltose.dat` into the wrong directory.
+The files should have been placed in the `raw` directory.
 
 ```bash
 $ ls -F
@@ -441,7 +424,7 @@ fructose.dat glucose.dat maltose.dat sucrose.dat
 $ cd analyzed
 ```
 
-Fill in the blanks to move these files to the `raw/` folder
+Fill in the blanks to move these files to the `raw/` directory
 (i.e. the one she forgot to put them in)
 
 ```bash
@@ -556,7 +539,7 @@ $ pwd
 ```
 
 ```output
-/Users/jamie/data
+/Users/nelle/data
 ```
 
 ```bash
@@ -581,19 +564,19 @@ $ ls
 
 :::{.answer}
 
-We start in the `/Users/jamie/data` directory, and create a new folder called `recombined`.
-The second line moves (`mv`) the file `proteins.dat` to the new folder (`recombined`).
+We start in the `/Users/nelle/data` directory, and create a new directory called `recombined`.
+The second line moves (`mv`) the file `proteins.dat` to the new directory (`recombined`).
 The third line makes a copy of the file we just moved.
 The tricky part here is where the file was copied to.
-Recall that `..` means 'go up a level', so the copied file is now in `/Users/jamie`.
+Recall that `..` means 'go up a level', so the copied file is now in `/Users/nelle`.
 Notice that `..` is interpreted with respect to the current working
 directory, **not** with respect to the location of the file being copied.
-So, the only thing that will show using ls (in `/Users/jamie/data`) is the recombined folder.
+So, the only thing that will show using ls (in `/Users/nelle/data`) is the recombined directory.
 
-1. No, see explanation above.  `proteins-saved.dat` is located at `/Users/jamie`
+1. No, see explanation above.  `proteins-saved.dat` is located at `/Users/nelle`
 2. Yes
-3. No, see explanation above.  `proteins.dat` is located at `/Users/jamie/data/recombined`
-4. No, see explanation above.  `proteins-saved.dat` is located at `/Users/jamie`
+3. No, see explanation above.  `proteins.dat` is located at `/Users/nelle/data/recombined`
+4. No, see explanation above.  `proteins-saved.dat` is located at `/Users/nelle`
 
 :::
 ::::
@@ -688,7 +671,7 @@ Given that there is no way to retrieve files deleted using the shell,
 
 ## Operations with multiple files and directories
 
-Oftentimes one needs to copy or move several files at once.
+Often one needs to copy or move several files at once.
 This can be done by providing a list of individual filenames,
 or specifying a naming pattern using wildcards. Wildcards are
 special characters that can be used to represent unknown characters
@@ -786,7 +769,7 @@ List filenames matching a pattern
 ::::
 ::::{.exercise-container}
 
-When run in the `alkanes` directory, which `ls` command(s) will
+Navigate into the `alkanes` directory. Which `ls` command(s) will
 produce this output?
 
 `ethane.pdb   methane.pdb`
@@ -852,8 +835,8 @@ the datasets:
 ```
 
 Before heading off to another field trip, she wants to back up her data and
-send some datasets to her colleague Bob. Sam uses the following commands
-to get the job done:
+send some datasets to her colleague Bob. Help Sam by filling in the blanks
+of the following commands to get the job done:
 
 ```bash
 $ cp *dataset* backup/datasets
@@ -861,8 +844,6 @@ $ cp ____calibration____ backup/calibration
 $ cp 2015-____-____ send_to_bob/all_november_files/
 $ cp ____ send_to_bob/all_datasets_created_on_a_23rd/
 ```
-
-Help Sam by filling in the blanks.
 
 The resulting directory structure should look like this
 
@@ -942,7 +923,7 @@ analyzed/  fructose.dat    raw/   sucrose.dat
 
 The `fructose.dat` and `sucrose.dat` files contain output from her data
 analysis. What command(s) covered in this lesson does she need to run
-so that the commands below will produce the output shown?
+so that the following commands will produce the output shown?
 
 ```bash
 $ ls -F
@@ -966,7 +947,7 @@ fructose.dat    sucrose.dat
 mv *.dat analyzed
 ```
 
-Jamie needs to move her files `fructose.dat` and `sucrose.dat` to the `analyzed` directory.
+Nelle needs to move her files `fructose.dat` and `sucrose.dat` to the `analyzed` directory.
 The shell will expand \*.dat to match all .dat files in the current directory.
 The `mv` command then moves the list of .dat files to the 'analyzed' directory.
 
@@ -976,17 +957,17 @@ The `mv` command then moves the list of .dat files to the 'analyzed' directory.
 
 :::{.exercise}
 ::::{.exercise-header}
-Reproduce a folder structure
+Reproduce a directory structure
 ::::
 ::::{.exercise-container}
 
 You're starting a new experiment and would like to duplicate the directory
 structure from your previous experiment so you can add new data.
 
-Assume that the previous experiment is in a folder called `2016-05-18`,
-which contains a `data` folder that in turn contains folders named `raw` and
-`processed` that contain data files.  The goal is to copy the folder structure
-of the `2016-05-18` folder into a folder called `2016-05-20`
+Assume that the previous experiment is in a directory called `2016-05-18`,
+which contains a `data` directory that in turn contains directories named `raw` and
+`processed` that contain data files.  The goal is to copy the directory structure
+of the `2016-05-18` directory into a directory called `2016-05-20`
 so that your final directory structure looks like this:
 
 ```output
@@ -1039,7 +1020,7 @@ the subdirectories.
 
 The third set of commands will give an error because the default behavior of `mkdir`
 won't create a subdirectory of a non-existent directory:
-the intermediate level folders must be created first.
+the intermediate level directories must be created first.
 
 The fourth set of commands achieve this objective. Remember, the `-p` option,
 followed by a path of one or more
@@ -1054,18 +1035,18 @@ as the 'data' directory.
 
 :::{.infobox}
 ::::{.infobox-header}
-Keypoints
+Key points
 ::::
 ::::{.exercise-container}
 
-- `cp [old] [new]` copies a file.
+- `cp [source] [destination]` copies a file.
 - `mkdir [path]` creates a new directory.
-- `mv [old] [new]` moves (renames) a file or directory.
+- `mv [source] [destination]` moves (renames) a file or directory.
 - `rm [path]` removes (deletes) a file.
 - `*` matches zero or more characters in a filename, so `*.txt` matches all files ending in `.txt`.
 - `?` matches any single character in a filename, so `?.txt` matches `a.txt` but not `any.txt`.
 - Use of the Control key may be described in many ways, including `Ctrl-X`, `Control-X`, and `^X`.
-- The shell does not have a trash bin: once something is deleted, it's really gone.
+- The shell does not preserve deleted files in a trash bin: once something is deleted, it's really gone.
 - Most files' names are `something.extension`. The extension isn't required, and doesn't guarantee anything, but is normally used to indicate the type of data in the file.
 - Depending on the type of work you do, you may need a more powerful text editor than Nano.
 
