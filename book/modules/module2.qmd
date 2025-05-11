@@ -19,20 +19,20 @@ filters:
 | Objectives | Questions |
 | --- | --- |
 | Explain the similarities and differences between a file and a directory. | How can I move around on my computer? |
-| Translate an absolute path into a relative path and vice versa. | How can I see what files and directories I have? |
-| Construct absolute and relative paths that identify specific files and directories. | How can I specify the location of a file or directory on my computer? |
-| Use options and arguments to change the behaviour of a shell command. |
+| Understand absolute paths and relative paths. | How can I see what files and directories I have? |
+| Use options and arguments to change the behaviour of a shell command. | How can I specify the location of a file or directory on my computer? |
 | Demonstrate the use of tab completion and explain its advantages. |
 
 
 The part of the operating system responsible for managing files and directories
 is called the **file system**.
-It organizes our data into files,
+It organizes the data on our disk into files,
 which hold information,
 and directories (also called 'folders'),
 which hold files or other directories.
 
-Several commands are frequently used to create, inspect, rename, and delete files and directories.
+These files and directories can be created, inspected, renamed, and deleted with commands that we need to learn first.
+
 To start exploring them, we'll go to our open shell window.
 
 First, let's find out where we are by running a command called `pwd`
@@ -346,6 +346,7 @@ Exploring More `ls` Options
 
 You can also use two options at the same time. What does the command `ls` do when used
 with the `-l` option? What about if you use both the `-l` and the `-h` option?
+Can you also combine the options into one `-lh`?
 
 Some of its output is about properties that we do not cover in this lesson (such
 as file permissions and ownership), but the rest should be useful
@@ -411,9 +412,9 @@ Note that if a directory named `Desktop` does not exist in your current working 
 this command will return an error. Typically, a `Desktop` directory exists in your
 home directory, which we assume is the current working directory of your bash shell.
 
-Your output should be a list of all the files and sub-directories in your
+Your output shows a list of all the files and sub-directories in your
 Desktop directory, including the `shell-lesson-data` directory you downloaded at
-the [setup for this lesson](../learners/setup.md). (On most systems, the
+the [setup for this lesson](setup.qmd). (On most systems, the
 contents of the `Desktop` directory in the shell will show up as icons in a graphical
 user interface behind all the open windows. See if this is the case for you.)
 
@@ -444,9 +445,8 @@ The command to change locations is `cd` followed by a
 directory name to change our working directory.
 `cd` stands for 'change directory',
 which is a bit misleading.
-The command doesn't change the directory;
+The command doesn't actually modify (or 'change') the directory;
 it changes the shell's current working directory.
-In other words it changes the shell's settings for what directory we are in.
 The `cd` command is akin to double-clicking a folder in a graphical interface
 to get into that folder.
 
@@ -512,7 +512,7 @@ $ cd ..
 ```
 
 `..` is a special directory name meaning
-"the directory containing this one",
+'the directory containing this one',
 or more succinctly,
 the **parent** of the current directory.
 Sure enough,
@@ -557,11 +557,11 @@ Other Hidden Files
 ::::{.exercise-container}
 
 In addition to the hidden directories `..` and `.`, you may also see a file
-called `.bash_profile`. This file usually contains shell configuration
+called `.bash_profile` and `.bashrc`. These files contain shell configuration
 settings. You may also see other files and directories beginning
-with `.`. These are usually files and directories that are used to configure
+with `.`. These are usually configuration files that were created by
 different programs on your computer. The prefix `.` is used to prevent these
-configuration files from cluttering the terminal when a standard `ls` command
+configuration files from cluttering the output of the regular `ls` command
 is used.
 
 ::::
@@ -691,7 +691,7 @@ Absolute vs Relative Paths
 
 Starting from `/Users/nelle/data`,
 which of the following commands could Nelle use to navigate to her home directory,
-which is `/Users/nelle`?
+which is `/Users/nelle`? And what do the other commands do?
 
 1. `cd .`
 2. `cd /`
@@ -731,7 +731,7 @@ Relative Path Resolution
 ::::{.exercise-container}
 
 Using the filesystem diagram below, if `pwd` displays `/Users/thing`,
-what will `ls -F ../backup` display?
+what will `ls -F ../backup` display? And why?
 
 1. `../backup: No such file or directory`
 2. `2012-12-01 2013-01-08 2013-01-27`
@@ -788,11 +788,11 @@ pnas_sub/ pnas_final/ original/
 
 ::::
 :::
-  
-## General Syntax of a Shell Command
 
-We have now encountered commands, options, and arguments,
-but it is perhaps useful to formalise some terminology.
+
+# General Syntax of a Shell Command
+
+All commands have the same structure, of the command itself, options, and arguments.
 
 Consider the command below as a general example of a command,
 which we will dissect into its component parts:
@@ -860,7 +860,7 @@ Library/              Users/
 Network/              Volumes/
 ```
 
-### Nelle's Pipeline: Organizing Files
+### Tab completion, or how Nelle can type less
 
 Knowing this much about files and directories,
 Nelle is ready to organize the files that the protein assay machine will create.

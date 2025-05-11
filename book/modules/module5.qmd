@@ -18,9 +18,60 @@ filters:
 
 | Objectives | Questions |
 | --- | --- |
+| Use variables in Bash | How can I set the value of a variable, and how can I use it? |
 | Write a loop that applies one or more commands separately to each file in a set of files. | How can I perform the same actions on many different files? |
 | Write a shell script that runs a command or series of commands for a fixed set of files. | How can I save and re-use commands? |
 | Run a shell script from the command line. | | 
+
+## Echo command
+
+We have seen many examples where commands create output. We can use the `echo` command to print any string as output:
+
+```bash
+$ echo yeehaa
+```
+
+```output
+$ yeehaa
+```
+
+## Variables
+
+Like any programming language, Bash enables you to use variables.
+We can set a variable 'species' on the command line:
+
+```bash
+$ species=chicken
+```
+
+Note that there are no spaces in this line. The shell interpreter reads this
+as one single command and sets the variable 'species' to value 'chicken'. 
+If spaces were accidentally added,
+the command line would be interpreted using the structure `command [options] [arguments]` and Bash would
+not know what to do with the command `species`, which is not a Linux command:
+
+```bash
+$ species = chicken
+```
+
+```output
+bash: species: command not found
+```
+
+If we want to see the value of the variable we use the `echo` command again.
+We call for the variable’s value by putting `$` (string sign; the string sign is an 's' with one vertical line through it, the dollar sign is an 's' with two vertical lines through it) in front of it. 
+The `$` tells the shell to treat the argument to `echo` as a variable name and substitute 
+its value in its place, rather than treat it as text or an external command.
+
+```bash
+$ echo $species
+```
+
+```output
+$ chicken
+```
+
+## Loops
 
 
 **Loops** are a programming construct which allow us to repeat a command or set of commands
@@ -60,7 +111,7 @@ do
 done  
 ```
 
-and we can apply this to our example like this:
+Consider the following loop:
 
 ```bash
 $ for filename in basilisk.dat minotaur.dat unicorn.dat
@@ -69,6 +120,18 @@ $ for filename in basilisk.dat minotaur.dat unicorn.dat
 >     head -n 2 $filename | tail -n 1
 > done
 ```
+
+In this example, the list_of_things contains three strings that are filenames: `basilisk.dat`, `minotaur.dat`, and `unicorn.dat`.
+Each time the loop iterates, we first use `echo` to print the value that the variable
+`$filename` currently holds. This is not necessary for the result, but beneficial for us here to
+have an easier time to follow along.
+Next, we will run the `head` command on the file currently referred to by `$filename`.
+
+When using variables it is also
+possible to put the names into curly braces to clearly delimit the variable
+name: `$filename` is equivalent to `${filename}`, but is different from
+`${file}name`. You may find this notation in other people's programs.
+
 
 ```output
 basilisk.dat
@@ -93,51 +156,30 @@ can be used to separate two commands written on a single line.
 ::::
 :::
 
-## Variables
-Inside the loop,
-we call for the variable's value by putting `$` in front of it.
-The `$` tells the shell interpreter to treat
-the variable as a variable name and substitute its value in its place,
-rather than treat it as text or an external command.
-
-In this example, the list is three filenames: `basilisk.dat`, `minotaur.dat`, and `unicorn.dat`.
-Each time the loop iterates, we first use `echo` to print the value that the variable
-`$filename` currently holds. This is not necessary for the result, but beneficial for us here to
-have an easier time to follow along.
-Next, we will run the `head` command on the file currently referred to by `$filename`.
-
-When using variables it is also
-possible to put the names into curly braces to clearly delimit the variable
-name: `$filename` is equivalent to `${filename}`, but is different from
-`${file}name`. You may find this notation in other people's programs.
-
 :::{.exercise}
 ::::{.exercise-header}
 Write your own loop
 ::::
 ::::{.exercise-container}
 
-How would you write a loop that echoes all 10 numbers from 0 to 9?
+How would you write a loop that echoes all characters from a to g?
 
 :::{.answer}
 ```bash
-$ for loop_variable in 0 1 2 3 4 5 6 7 8 9
+$ for loop_variable in a b c d e f g
 > do
 >     echo $loop_variable
 > done
 ```
 
 ```output
-0
-1
-2
-3
-4
-5
-6
-7
-8
-9
+a
+b
+c
+d
+e
+f
+g
 ```
 :::
 ::::
@@ -287,15 +329,16 @@ Text vs. Whatever
 ::::
 ::::{.exercise-container}
 
-We usually call programs like Microsoft Word or LibreOffice Writer "text
-editors", but we need to be a bit more careful when it comes to
+We usually call programs like Microsoft Word or LibreOffice Writer 'text
+editors', but we need to be a bit more careful when it comes to
 programming. By default, Microsoft Word uses `.docx` files to store not
 only text, but also formatting information about fonts, headings, and so
 on. This extra information isn't stored as characters and doesn't mean
 anything to tools like `head`, which expects input files to contain
 nothing but the letters, digits, and punctuation on a standard computer
 keyboard. When editing programs, therefore, you must either use a plain
-text editor or be careful to save files as plain text.
+text editor or be careful to save files as plain text. Programs such
+as Microsoft Word or LibreOffice Writer are called 'type setters'.
 
 ::::
 :::
@@ -591,6 +634,22 @@ she could modify her script to check for command-line arguments,
 and use `NENE*A.txt NENE*B.txt` if none were provided.
 Of course, this introduces another tradeoff between flexibility and complexity.
 
+:::{.infobox}
+::::{.infobox-header}
+Danger, Will Robinson!
+::::
+::::{.exercise-container}
+In the example above, the script 'do-stats.sh' calls another script 'goostats.sh' multiple times.
+This is fine! 
+However, be aware that a script can also call itself!
+This will then call itself again, and again, until the computer's memory will be full of the
+endless tree of processes, and it will crash. This type of process is called a `fork bomb'.
+Be careful when writing scripts that call other scripts and do not create fork bombs.
+::::
+:::
+
+
+
 ## Parallelization
 
 In the last example, we used a script with a for loop to start a program multiple times for different input files. This might as well be a Python or R script. But what if this script takes a long time to run? We might be able to speed things up by running multiple instances of the script in parallel. This is possible because the runs of the script are independent of each other; i.e. each time the script uses a different inputfile and the results of one run of the script do not affect the results of another run.
@@ -600,10 +659,10 @@ The most straigthforward way to do this is by creating so-called background jobs
 ```bash
 sleep 10
 ```
-The `sleep` command will put the command line "to sleep" for n seconds (in this case 30). Actually it just delays the execution of the next command for a specified number of seconds, so it can be useful in a scripts. If we do this again with the `&` at the end of the command, a process will be started in the background and the next command can be executed. 
-```bash
-sleep 30
-```
+The `sleep` command will put the command line "to sleep" for n seconds (in this case 10). 
+Actually it just delays the execution of the next command for a specified number of seconds, 
+so it can be useful in a scripts. If we do this again with the `&` at the end of the command, 
+a process will be started in the background and the next command can be executed. 
 
 If we want to know the status of the background job, we can use the `jobs` command.
 
@@ -625,12 +684,12 @@ Create two files with `nano` called `job.sh` and `task.sh`.
 In `task.sh`, write the following code:
 
 ```bash
-sleeptime=$((30+$1))
+sleeptime=$((10+$1))
 sleep $sleeptime
 echo "Done sleeping $sleeptime seconds, job: $1"
 ```
 
-The syntax `$(())` in the first line is needed for calculations with variables (alternatives do exist). It means that the variable `sleeptime` is set to 30 plus the value of the variable `$1`.
+The syntax `$(())` in the first line is needed for calculations with variables (alternatives do exist). It means that the variable `sleeptime` is set to 10 plus the value of the variable `$1`.
 
 Now run the following command to test it:
 
@@ -672,6 +731,19 @@ The `wait` command is added to the end of the script to wait for all the backgro
 ::::
 :::
 
+
+:::{.infobox}
+::::{.infobox-header}
+Limitations of Bash
+::::
+::::{.exercise-container}
+The line `sleeptime=$((10+$1))' to add two numbers already reveals a limitation of Bash.
+Bash is cumbersome for numerical computations. When your program needs to make calculations,
+Bash might be the wrong tool and it is probably best to use another programming language.
+::::
+:::
+
+
 :::{.infobox}
 ::::{.infobox-header}
 Monitoring processes
@@ -689,9 +761,10 @@ The `-t` option to `ps` is used to get only processes associated to the current 
 Alternatively, we can use the `top` command:
 
 ```bash
-top -U $USER
+top
 ```
-The `-U` option to `top` is used to get only processes associated to the current user. This can be a long list. You can scroll down the overview with the down arrow. Press `q` to quit the overview.
+
+It shows a list of all the processes running on this computer.
 
 ::::
 :::
@@ -711,11 +784,14 @@ sleep 30 &
 ```
 In case we don't know the PID, we can get it from the output of `ps` or `top`. Both in the output of `ps` and `top` we see a column `PID`.
 
-With the `kill` command we can kill a process with a specific PID. If the PID would be `54932`, we would use:
+With the `kill` command we can kill a process with a specific PID. 
+If the PID would be `54932`, we would use:
 
 ```bash
 kill 54932
 ```
+For safety reason, you cannot kill processes from another user.
+
 ::::
 :::
 

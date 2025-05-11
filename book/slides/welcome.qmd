@@ -4,7 +4,7 @@ format:
     margin: 0
     theme: ../styles/uu.scss
     logo: ../img/UU_logo_2021_EN_RGB.png
-    footer: "Lukas van de Wiel and Jelle Treep"
+    footer: "UDCC"
 ---
 
 # Welcome! {data-background-color="#FFCD00"}
@@ -57,7 +57,7 @@ In the context of this HPC Spring school we use a simpler and broader definition
   * Faculty systems (Gemini, Eejit, etc)
 - National supercomputer Snellius 
 - SURF Research cloud
-- European supercomputer LUMI
+- European supercomputer LUMI (#8 in the world)
 
 :::
 

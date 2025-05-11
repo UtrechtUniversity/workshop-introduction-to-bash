@@ -3,57 +3,123 @@ format:
   revealjs:
     theme: ../styles/uu.scss
     logo: ../img/UU_logo_2021_EN_RGB.png
-    footer: "Lukas van de Wiel and Jelle Treep"
+    footer: "Jelle Treep and Lukas van de Wiel"
 ---
 
 # Introduction to Linux command line {data-background-color="#FFCD00"}
 
 ![](../img/UU_logo_2021_EN_RGB.png){.absolute bottom=320 left=0 width="300" height="120"}
 
-## Who are we?
+## The trainers today
 
-- Lukas van de Wiel
+::: {.theme-section-large}
 - Jelle Treep
+- Lukas van de Wiel
+- Dawa Ometto
+- Shiva Nadi
 
+:::
 
-## UDCC
+## What is a shell
 
-- What is the UDCC
-
-
-## HPC Spring School @ UU
-
-
-
-## What is HPC
-
-
-## Overview of systems and support
+![](https://kids.kiddle.co/images/0/07/MS-Dos_screenshot.png)
 
 
 ## What is a shell
 
-- Graphical User Interface vs. Command line interface
-- Prompt: `jelle@localhost $`
+::: {.theme-section-large}
+
+- Type commands to do things
+- has a prompt:
+
+```bash
+jelle@localhost $ 
+```
+- Run programs and scripts
+- Can be interactive or non-interactive
+
+:::
+
+## Alternatives
+
+![](https://servicedesk.surf.nl/wiki/download/attachments/101089402/ood_interactive_apps.png?version=1&modificationDate=1730985190006&api=v2)
+
 
 ## Why shell?
 
-- Majority of HPC systems run on linux
+::: {.theme-section-large}
+
+- Vast Majority of HPC systems are:
+  * Linux based
+  * Operated via Shell
+
 - Lots of flexibility
+- Not so difficult to learn
 - Automation
 - Git
 
+:::
 
-## Bash and other shells
+## Bash vs. other shells
 
+::: {.theme-section-large}
 
+Bash is often the default shell on Linux systems.
 
-## A typical pipeline
+- Powershell (windows)
+- zsh
+- others
 
-- A large number of samples
-- A script to process the samples
+For now: Important to know that others do exist.
 
+:::
 
+## Today:
+
+::: {.theme-section-large}
+
+> Nelle Nemo, a marine biologist, has just returned from a six-month survey of the [North Pacific Gyre](https://en.wikipedia.org/wiki/North_Pacific_Gyre), where she has been sampling gelatinous marine life in the [Great Pacific Garbage Patch](https://en.wikipedia.org/wiki/Great_Pacific_Garbage_Patch).
+
+- 1520 samples
+- relative abundance of 300 proteins
+- needs to run these 1520 files through an imaginary program called `goostats.sh`
+- `goostats.sh` takes 30 seconds
+
+:::
+
+## Today:
+
+::: {.theme-section-large}
+
+We will explore the ways Nelle can achieve this in a better way. More specifically, we will learn how Nelle can automate the repetitive steps, so that her computer can work while she writes her paper.
+
+As a bonus,
+once she has put a processing pipeline together,
+she will be able to use it again whenever she collects more data.
+
+:::
+
+## Today
+
+::: {.theme-section-large}
+
+- navigate to a file/directory
+- create a file/directory
+- check the length of a file
+- chain commands together
+- retrieve a set of files
+- iterate over files
+- run a shell script containing her pipeline
+
+:::
+
+## Credits:
+
+::: {.theme-section-large}
+
+The contents of this workshop are for a large part based on material of the workshop ‘The Unix Shell’ developed by the Software Carpentries and published under CC BY 4.0 license.
+
+:::
 
 # {data-background-color="#FFCD00"}
 
