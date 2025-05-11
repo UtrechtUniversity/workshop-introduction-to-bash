@@ -1,0 +1,113 @@
+--- 
+format: 
+  revealjs:
+    margin: 0
+    theme: ../styles/uu.scss
+    logo: ../img/UU_logo_2021_EN_RGB.png
+    footer: "Lukas van de Wiel and Jelle Treep"
+---
+
+# Welcome! {data-background-color="#FFCD00"}
+
+![](../img/UU_logo_2021_EN_RGB.png){.absolute bottom=320 left=0 width="300" height="120"}
+
+## HPC Spring School @ UU
+
+::: {.theme-section-large}
+
+- SURF
+- EuroCC Netherlands
+- UDCC
+- Research Engineering team @ UU
+
+:::
+
+## What is HPC
+
+::: {.theme-section-large}
+
+> HPC, known as supercomputing, is really nothing less than the ability to process complex (computational) tasks at very high speed.  The machine you use to do this is called a Supercomputer. (EuroCC Netherlands)
+
+In the context of this HPC Spring school we use a simpler and broader definition:
+
+> Any system that provides computational power beyond your own computer. This can be a single (remote) machine, a cluster of machines, or a cloud platform.
+
+:::
+
+## HPC Spring School @ UU
+
+::: {.theme-section-large}
+
+- Primers: Git and Bash
+- Supercomputing 1: Basics of supercomputing
+- Supercomputing 2: File systems, performance, and parallel computing
+- SURF Research cloud: Introduction and Advanced
+- Parallellization with MPI
+- Energy-efficient Computing
+- High Performance Deep Learning
+
+:::
+
+## Overview of systems
+
+::: {.theme-section-large}
+
+- \>20 'HPC' systems in Utrecht
+  * Utrecht Bioinformatics Center (UBC)
+  * Faculty systems (Gemini, Eejit, etc)
+- National supercomputer Snellius 
+- SURF Research cloud
+- European supercomputer LUMI
+
+:::
+
+## How to choose
+
+::: {.theme-section-large}
+
+- Requirements (CPU, RAM, storage, GPU, etc.)
+- Graphical user interface (GUI) vs. Command line interface (CLI)
+- Software installations
+- Security
+- Collaboration
+- Access requirements
+
+:::
+
+## Getting started
+
+::: {.theme-section-large}
+
+- Contact support team
+  * Faculty IT
+  * UU HPC consultancy team
+  * UBC support team
+  * Surf servicedesk
+
+:::
+
+## Schedule today
+
+::: {.theme-section-large}
+
+
+| Time | Chapter |
+|---|---|
+| 9:30 | Introducing to linux command line |
+| 10:00 | Navigating files and directories |
+| 10:30	| Creating and editing files |
+| 11:00	| Coffee break |
+| 11:15	| Creating and editing files |
+| 11:30 | Pipes and Filters |
+| 12:10 | Scripts and variables	|
+| 12:30 | Lunch break |
+| 13:15	| Scripts and variables |
+| 13:45 | SSH and SCP	| 
+
+: {.striped}
+
+:::
+
+# {data-background-color="#FFCD00"}
+
+![](../img/UU_logo_2021_EN_RGB_payoff.png)

@@ -36,6 +36,12 @@ section.slide h2 {
   margin-left: 5vw;
 }
 
+.theme-section-large {
+  text-align: left;
+  margin-top: 1.2em;
+  margin-left: 5vw;
+  font-size: 1.5em;
+}
 
 //code
 $code-color: #883080 !default;
@@ -121,4 +127,12 @@ section.has-dark-background a, section.has-dark-background a:hover {
   right: 10px !important;
   top: unset !important;
   color: #000000 !important;
+}
+
+/*-- scss:rules --*/
+.table-striped {
+  font-size: smaller;
+  > tbody > tr:nth-of-type(odd) > * {
+    background-color: #f2f2f2d5;
+  }
 }

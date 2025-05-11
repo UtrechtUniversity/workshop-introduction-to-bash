@@ -240,9 +240,7 @@ instead, it sends the sorted result to the screen:
 
 ```bash
 $ sort -n lengths.txt
-```:::::::::::::::::::::::::::::::::::::::::::::::
-
-:::::::::::::::::::::::::::::::::::::::  challenge
+```
 
 ```output
   9  methane.pdb
