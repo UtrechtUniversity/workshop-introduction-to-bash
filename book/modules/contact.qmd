@@ -1,0 +1,15 @@
+---
+title: Contact
+subtitle: Support teams
+---
+
+[Extra chapter on finding things by the Software Carpentries](https://swcarpentry.github.io/shell-novice/07-find.html)
+
+[Overview of UU faculty support teams](https://www.uu.nl/en/research/research-data-management/support/faculty-support)
+
+[UU HPC consultancy team](https://www.uu.nl/en/research/research-data-management/tools/software-and-computing/high-performance-and-cloud-computing)
+
+[Weekly walk-in hours for help with Data, Programming, and HPC](https://www.uu.nl/en/research/research-data-management/workshops/walk-in-hours-research-data-and-software)
+
+[Monthly Programming Cafe](https://www.uu.nl/en/research/research-data-management/workshops/programming-cafe)
+

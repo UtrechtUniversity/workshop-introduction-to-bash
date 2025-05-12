@@ -40,6 +40,8 @@ website:
             text: Scripts, variables and parallelization
           - href: modules/module6.qmd
             text: SSH and SCP
+          - href: modules/contact.qmd
+            text: Contact
 
 format:
   html:
