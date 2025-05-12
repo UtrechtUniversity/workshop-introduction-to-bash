@@ -9,8 +9,6 @@ format:
 
 # Welcome! {data-background-color="#FFCD00"}
 
-![](../img/UU_logo_2021_EN_RGB.png){.absolute bottom=320 left=0 width="300" height="120"}
-
 ## HPC Spring School @ UU
 
 ::: {.theme-section-large}

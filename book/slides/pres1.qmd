@@ -8,8 +8,6 @@ format:
 
 # Introduction to Linux command line {data-background-color="#FFCD00"}
 
-![](../img/UU_logo_2021_EN_RGB.png){.absolute bottom=320 left=0 width="300" height="120"}
-
 ## The trainers today
 
 ::: {.theme-section-large}
@@ -29,7 +27,7 @@ format:
 
 ::: {.theme-section-large}
 
-> a computer program that provides relatively broad and direct access to the system on which it runs. The term shell refers to how it is a relatively thin layer around an operating system. A shell is generally a command-line interface (CLI) program [Wikipedia]
+> *a computer program that provides relatively broad and direct access to the system on which it runs. The term shell refers to how it is a relatively thin layer around an operating system. A shell is generally a command-line interface (CLI) program [Wikipedia]*
 
 - Type commands to do things
 - has a prompt:
@@ -68,8 +66,8 @@ jelle@localhost $
 Bash is often the default shell on Linux systems.
 
 - Powershell (windows)
-- zsh
-- others
+- Z shell
+- many others
 
 For now: Important to know that others do exist.
 
