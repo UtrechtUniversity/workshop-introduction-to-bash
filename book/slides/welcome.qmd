@@ -59,20 +59,6 @@ In the context of this HPC Spring school we use a simpler and broader definition
 
 :::
 
-## How to choose
-
-::: {.theme-section-large}
-
-- Requirements (CPU, RAM, storage, GPU, etc.)
-- Graphical user interface (GUI) vs. Command line interface (CLI)
-- Software installations
-- Security
-- Collaboration
-- Access requirements
-- Support
-
-:::
-
 ## Getting started
 
 ::: {.theme-section-large}
@@ -95,9 +81,7 @@ In the context of this HPC Spring school we use a simpler and broader definition
 | 9:30 | Part 1 |
 | 11:00	| Coffee break |
 | 11:15	| Part 2 |
-| 12:30 | Lunch break |
-| 13:15	| Part 3 |
-| 14:30 | End |
+| 12:30 | End and lunch |
 : {.striped}
 
 :::

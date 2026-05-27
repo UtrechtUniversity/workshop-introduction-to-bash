@@ -11,11 +11,9 @@ format:
 ## The trainers today
 
 ::: {.theme-section-large}
-- Jelle Treep
-- Lukas van de Wiel
+- Christine Staiger
 - Dawa Ometto
-- Shiva Nadi
-
+- Jelle Treep
 :::
 
 ## What is a shell
@@ -40,10 +38,6 @@ jelle@localhost $
 
 :::
 
-## Alternatives
-
-![](https://servicedesk.surf.nl/wiki/download/attachments/101089402/ood_interactive_apps.png?version=1&modificationDate=1730985190006&api=v2)
-
 ## Why shell?
 
 ::: {.theme-section-large}
@@ -58,6 +52,10 @@ jelle@localhost $
 - Git
 
 :::
+
+## Alternatives
+
+![](https://servicedesk.surf.nl/wiki/download/attachments/101089402/ood_interactive_apps.png?version=1&modificationDate=1730985190006&api=v2)
 
 ## Bash vs. other shells
 
