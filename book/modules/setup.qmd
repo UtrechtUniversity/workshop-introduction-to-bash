@@ -193,6 +193,13 @@ Open your terminal application and check if an agent is running:
   Error connecting to agent: No such file or directory
   ```
 
+or,
+
+
+  ```output
+  Could not open a connection to your authentication agent.
+  ```
+
 
   ... then you need to launch the agent as follows:
 
