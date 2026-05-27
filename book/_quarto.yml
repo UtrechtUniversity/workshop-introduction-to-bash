@@ -11,9 +11,9 @@ website:
       - icon: github
         menu:
           - text: Source code
-            url:  https://github.com/UtrechtUniversity/rdm-quarto-workshop-template
+            url:  https://github.com/UtrechtUniversity/workshop-introduction-to-bash
           - text: Report an issue
-            url:  https://github.com/UtrechtUniversity/rdm-quarto-workshop-template/issues
+            url:  https://github.com/UtrechtUniversity/workshop-introduction-to-bash/issues
     search: true
     pinned: true
     alignment: center

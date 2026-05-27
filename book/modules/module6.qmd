@@ -33,71 +33,18 @@ allowing you to send and receive text and data without having to worry about pry
 
 ![](https://carpentries-incubator.github.io/hpc-intro/fig/connect-to-remote.svg)
 
-To be able to connect to another computer, you first need an account on it.
-Fortunately you have an account on Eejit, the HPC-cluster of the
-Department of Earth Sciences of Utrecht University!
+For the purpose of this workshop, we will be using a remote "Virtual Machine" on SURF Research Cloud. Prior to this workshop, you should have received an email from the SURF Research Access Management (SRAM) with an Invitation to join a collaboration called VRE demo. If you haven't accepted the invitation yet, please do so now.
+
+If you have followed the setup instructions, you already have created an SSH key pair. 
+
+The first thing that we need to do now is upload the public key in [SRAM](https://sram.surf.nl/) ([instructions](https://servicedesk.surf.nl/wiki/spaces/WIKI/pages/195854434/Workspace+access+with+SSH#WorkspaceaccesswithSSH-2.AddpublickeyinSRAM.(onlyhastobedoneonceforakey))).  
+
 
 You can login using the command
 
 ```bash
-ssh <your username>@<address>
+ssh <your username>@<ip-address>
 ```
-
-The address for Eejit is:  `eejit.geo.uu.nl`
-
-You will be asked for your password. Watch out: the characters you type after
-the password prompt are not displayed on the screen, so that villains near you 
-cannot see it. Normal output will resume once you press `Enter`.
-
-You will see a flush of information, which is called the 'message of the day':
-
-```output
-********************************************************************
-*                                                                  *
-*                        Welcome to Eejit !                        *
-*                                                                  *
-********************************************************************
-*                                                                  *
-*   For more information: https://eejit-doc.geo.uu.nl/mediawiki/   *
-*   (Login for this wiki is the same as for Eejit itself.          *
-*    When logging in, make sure to click the blue button after     *
-*    entering the credentials in stead of pressing [enter].)       *
-*                                                                  *
-********************************************************************
-*                                                                  *
-*  Software in Eejit in stored in four main module categories:     *
-* (https://eejit-doc.geo.uu.nl/mediawiki/index.php?title=Modules)  *
-*                                                                  *
-*  1: codes: large software packages to run simulations.           *
-*  2: development: compilers, parallellization, etc.               *
-*    (Module dev2024 contains a complete modern environment.       *
-*     Module devStable contains a less cutting edge environment.)  *
-*  3: libraries: libraries for various requirements.               *
-*  4: tools: software for visualisation, meshing, etc.             *
-*                                                                  *
-********************************************************************
-*                                                                  *
-*  Eejit uses the Slurm queueing system to run parallel jobs.      *
-*  For documentation and examples see:                             *
-*  https://eejit-doc.geo.uu.nl/mediawiki/index.php?title=Scheduler *
-*                                                                  *
-********************************************************************
-*                                                                  *
-*  The login node runs fail2ban. This mechanism bans logins for    *
-*  15 minutes after 3 incorrect login attempts. This prevents      *
-*  mailicious login attempts.                                      *
-*                                                                  *
-********************************************************************
-*                                                                  *
-*   Questions? Contact Lukas van de Wiel (l.y.vandewiel@uu.nl)     *
-*              or Theo van Zessen          (t.vanzessen@uu.nl)     *
-*                                                                  *
-********************************************************************
-(<time> <username>@login01 ~) >
-```
-
-Welcome to supercomputing! Congratulations.
-
 
 You may have noticed that the prompt changed when you logged into the remote
 system using the terminal
@@ -149,16 +96,6 @@ If your private key becomes publicly available, the key pair is compromised
 and a new key pair has to be generated and the public keys replaced with the new one. 
 :::
 
-#### Uploading your key to Eejit
-
-Check the [setup instructions](setup.qmd) if you didn't create a key pair yet.
-
-The key can be uploaded to eejit using the command:
-
-```bash
-{{< var site.localprompt >}} ssh-copy-id <username>@eejit.geo.uu.nl
-```
-
 ## Looking Around Your Remote Home
 
 Let's find out where we are
@@ -169,7 +106,7 @@ by running `pwd` to **p**rint the **w**orking **d**irectory.
 ```
 
 ```output
-/eejit/home/yourUsername
+/home/yourUsername
 ```
 
 so we're definitely on the remote machine!
@@ -177,6 +114,17 @@ so we're definitely on the remote machine!
 Great, we know where we are! Let's see what's in our current directory:
 
 ```bash
+{{< var site.remoteprompt >}} ls
+```
+You will see 2 folders:
+
+```output
+data  local-share
+```
+Navigate to the `local-share` folder and check its contents:
+
+```bash
+{{< var site.remoteprompt >}} cd local-share
 {{< var site.remoteprompt >}} ls
 ```
 
@@ -253,7 +201,7 @@ The scp command is similar, but we need to add the address of the remote compute
 such as:
 
 ```
-{{< var site.localprompt >}} scp testfile.txt <username>@eejit.geo.uu.nl:.
+{{< var site.localprompt >}} scp testfile.txt <username>@<address>:local-share/
 ```
 
 Remember the . stands for 'current working directory'. This is the directory 
@@ -263,7 +211,7 @@ you would end up in if you make an ssh-connection.
 To transfer an entire directory add the `-r` option, just as with the regular `cp` command:
 
 ```
-scp -r sourcedir <username>@<ip-address>:data/storage/input_data
+scp -r sourcedir <username>@<ip-address>:local-share/input_data
 ```
 
 ### Transfer data from the remote computer to your local computer
@@ -306,7 +254,7 @@ rsync -azP ./my_local_folder <username>@<ip-address>:my_destination_folder
 ```
 
 ```
-rsync -azP ./my_local_folder <username>@<ip-address>:~/data/storage/input_data
+rsync -azP ./my_local_folder <username>@<ip-address>:~/local-share/input_data
 ```
 
 Where `-azP` are handy options. Type `rsync --help` to see a list of the options.
