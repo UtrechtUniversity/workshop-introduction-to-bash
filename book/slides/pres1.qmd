@@ -3,7 +3,6 @@ format:
   revealjs:
     theme: ../styles/uu.scss
     logo: ../img/UU_logo_2021_EN_RGB.png
-    footer: "Jelle Treep and Lukas van de Wiel"
 ---
 
 # Introduction to Linux command line {data-background-color="#FFCD00"}
